@@ -1,7 +1,7 @@
 'use client';
 
 import { create } from 'zustand';
-import { Trip, TasteProfile, WeatherData } from '@/types';
+import { Trip, TasteProfile, WeatherData, ItineraryItem } from '@/types';
 import { seedTrips } from '@/data/seedTrips';
 import { defaultProfile } from '@/data/seedProfile';
 import { load, save } from './persist';
@@ -20,6 +20,9 @@ interface TravelfireState {
 
   weatherCache: Record<string, WeatherData>;
   setWeatherCache: (key: string, data: WeatherData) => void;
+
+  addToItinerary: (tripId: string, item: ItineraryItem) => void;
+  removeFromItinerary: (tripId: string, itemId: string) => void;
 }
 
 export const useStore = create<TravelfireState>((set, get) => ({
@@ -56,5 +59,24 @@ export const useStore = create<TravelfireState>((set, get) => ({
   weatherCache: {},
   setWeatherCache: (key, data) => {
     set({ weatherCache: { ...get().weatherCache, [key]: data } });
+  },
+
+  addToItinerary: (tripId, item) => {
+    const trips = get().trips.map((t) => {
+      if (t.id !== tripId) return t;
+      const itinerary = [...(t.itinerary || []), item];
+      return { ...t, itinerary };
+    });
+    set({ trips });
+    save('trips', trips);
+  },
+  removeFromItinerary: (tripId, itemId) => {
+    const trips = get().trips.map((t) => {
+      if (t.id !== tripId) return t;
+      const itinerary = (t.itinerary || []).filter((i) => i.id !== itemId);
+      return { ...t, itinerary };
+    });
+    set({ trips });
+    save('trips', trips);
   },
 }));

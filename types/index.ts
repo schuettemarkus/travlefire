@@ -34,6 +34,47 @@ export type Location = {
   goodMonths: string[];
   caution: string[];
   highlights: { title: string; blurb: string }[];
+  activities: Activity[];
+  restaurants: Restaurant[];
+};
+
+export type Activity = {
+  id: string;
+  name: string;
+  description: string;
+  image: string;
+  category: 'sightseeing' | 'adventure' | 'cultural' | 'nature' | 'wellness' | 'family' | 'nightlife';
+  estimatedCostUSD: { low: number; high: number };
+  durationHours: number;
+  effortLevel: 'easy' | 'moderate' | 'challenging';
+  bestTime?: string;
+  tags: string[];
+};
+
+export type Restaurant = {
+  id: string;
+  name: string;
+  description: string;
+  image: string;
+  cuisine: string;
+  priceRange: '$' | '$$' | '$$$' | '$$$$';
+  healthRating: 1 | 2 | 3 | 4 | 5;
+  organicFocus: boolean;
+  dietaryOptions: string[];
+  specialties: string[];
+  avgMealCostUSD: number;
+  tags: string[];
+};
+
+export type ItineraryItem = {
+  id: string;
+  tripId: string;
+  day: number;
+  type: 'activity' | 'restaurant';
+  referenceId: string;
+  locationSlug: string;
+  timeSlot?: 'morning' | 'afternoon' | 'evening';
+  notes?: string;
 };
 
 export type Trip = {
@@ -51,6 +92,7 @@ export type Trip = {
   tags?: string[];
   photos?: string[];
   routePolyline?: string;
+  itinerary?: ItineraryItem[];
 };
 
 export type TasteProfile = {

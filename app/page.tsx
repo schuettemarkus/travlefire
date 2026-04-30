@@ -7,6 +7,7 @@ import { QuickStatsGrid } from '@/components/glance/QuickStatsGrid';
 import { UpcomingTripCard } from '@/components/glance/UpcomingTripCard';
 import { RecommendationStrip } from '@/components/glance/RecommendationStrip';
 import { useStore } from '@/lib/store';
+import { locations } from '@/data/locations';
 import Link from 'next/link';
 
 export default function HomePage() {
@@ -51,7 +52,43 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Recommendations */}
+      {/* Favorites */}
+      <section className="py-12 md:py-16" aria-label="Your favorite destinations">
+        <div className="max-w-content mx-auto px-4 sm:px-6">
+          <h2 className="display text-2xl font-bold mb-2">Favorites</h2>
+          <p className="text-ink/60 mb-6">Your saved destinations — quick access to places you love.</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {locations.map((loc) => (
+              <Link
+                key={loc.slug}
+                href={`/locations/${loc.slug}`}
+                className="rounded-brand border border-mist overflow-hidden hover:shadow-brand transition-shadow group"
+              >
+                <div
+                  className="h-36 bg-cover bg-center group-hover:scale-105 transition-transform duration-300"
+                  style={{ backgroundImage: `url(${loc.heroImage})` }}
+                />
+                <div className="p-4">
+                  <div className="flex items-center justify-between">
+                    <h3 className="font-bold">{loc.name}</h3>
+                    {loc.slug === 'north-ogden-ut' && (
+                      <span className="text-[0.65rem] px-2 py-0.5 rounded-full bg-ember/10 text-ember font-medium">Home</span>
+                    )}
+                  </div>
+                  <p className="text-ink/50 text-[0.85rem]">{loc.country} · {loc.region}</p>
+                  <div className="flex items-center gap-3 mt-2 text-[0.75rem] text-ink/40">
+                    <span>${loc.budget.dailyMidUSD}/day</span>
+                    <span>Safety {loc.safetyScore}/100</span>
+                    <span>{loc.tags[0]}</span>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Recommendations (engine-driven) */}
       <RecommendationStrip />
 
       {/* Recently Visited */}
