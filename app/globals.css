@@ -1,0 +1,84 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --ink: #1B1A17;
+  --paper: #FAF7F2;
+  --ember: #D4622A;
+  --horizon: #2E5266;
+  --mist: #E5E0D7;
+  --success: #3F7D5C;
+  --warn: #C99A2E;
+  --danger: #A33B2A;
+  --radius: 14px;
+  --shadow: 0 10px 30px rgba(27, 26, 23, 0.08);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ink: #F5F1EA;
+    --paper: #14130F;
+    --mist: #2A2823;
+  }
+}
+
+html {
+  font-size: 18px;
+}
+
+html.text-larger {
+  font-size: 20.7px; /* 115% */
+}
+
+html.text-largest {
+  font-size: 23.4px; /* 130% */
+}
+
+body {
+  font-family: var(--font-inter), system-ui, sans-serif;
+  color: var(--ink);
+  background: var(--paper);
+  line-height: 1.55;
+}
+
+.display {
+  font-family: var(--font-fraunces), Georgia, serif;
+  font-feature-settings: "opsz" 144;
+}
+
+/* Focus rings - always visible */
+*:focus-visible {
+  outline: 2px solid var(--ember);
+  outline-offset: 2px;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0s !important;
+    transition-duration: 0s !important;
+  }
+}
+
+/* Tabular numerals for stats */
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--mist);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--horizon);
+  border-radius: 4px;
+}
